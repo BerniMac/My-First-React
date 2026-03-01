@@ -1,47 +1,34 @@
 <?php
-// create_booking.php - Handles new service requests
 header('Content-Type: application/json');
 require_once 'db_config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'] ?? '';
-    $brand = $_POST['brand'] ?? '';
-    $service = $_POST['service'] ?? '';
-    $date = $_POST['date'] ?? '';
-    $time = $_POST['time'] ?? '09:00';
-
-    if (empty($user_id) || empty($brand) || empty($service) || empty($date)) {
-        echo json_encode(['status' => 'error', 'message' => 'Incomplete booking data']);
-        exit;
-    }
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
 
     try {
-        // AI/Demand Forecasting Logic: Limit 3 bookings per slot
-        $check = $conn->prepare("SELECT COUNT(*) FROM orders WHERE pickup_date = ? AND pickup_time = ?");
-        $check->execute([$date, $time]);
-        $count = $check->fetchColumn();
-
-        if ($count >= 3) {
-            echo json_encode([
-                'status' => 'error', 
-                'message' => 'High Demand Warning: This time slot is full. Please select another date.'
-            ]);
-            exit;
-        }
-
-        // 1. Insert Order
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, shoe_brand, service_type, pickup_date, pickup_time) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$user_id, $brand, $service, $date, $time]);
         
-        $order_id = $conn->lastInsertId();
+        $sql = "SELECT 
+                    o.id, 
+                    o.shoe_brand, 
+                    o.service_type, 
+                    o.pickup_date, 
+                    o.status, 
+                    p.technician_notes, 
+                    p.updated_at as last_update 
+                FROM orders o 
+                LEFT JOIN product_passports p ON o.id = p.order_id 
+                WHERE o.user_id = ? 
+                ORDER BY o.created_at DESC";
 
-        // 2. Create Initial Product Passport
-        $passport = $conn->prepare("INSERT INTO product_passports (order_id, technician_notes) VALUES (?, 'Awaiting initial laboratory inspection')");
-        $passport->execute([$order_id]);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$user_id]);
+        $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode(['status' => 'success', 'message' => 'Booking Confirmed! Your sneaker passport has been issued.']);
+        echo json_encode(['status' => 'success', 'data' => $orders]);
     } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Booking failed: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Failed to fetch vault: ' . $e->getMessage()]);
     }
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'User session expired. Please login again.']);
 }
 ?>
