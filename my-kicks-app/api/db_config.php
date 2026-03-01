@@ -1,10 +1,10 @@
 <?php
-// config.php - Central Database and CORS Configuration
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 
-// THIS PART IS CRITICAL
+
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -15,8 +15,6 @@ $db_name = 'sole-care_database';
 $username = 'root'; 
 $password = 'root'; 
 
-// --- MANDATORY CORS HEADERS ---
-// This allows your React frontend (port 5173) to talk to PHP (port 80)
 /*
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");

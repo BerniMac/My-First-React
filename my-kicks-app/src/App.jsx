@@ -15,9 +15,7 @@ import jordanImg from './assets/image/jordan-1.jpg';
 import yeezyImg from './assets/image/yeezy-350.jpg';
 import dunkImg from './assets/image/low-dunk.jpg';
 
-// --- CONFIGURATION ---
-// Ensure this matches your XAMPP/WAMP folder structure exactly
-// Added http: to ensure the fetch request is valid
+
 const API_BASE_URL = 'http://localhost/SoleCare1/my-kicks-app/api/';
 
 //here we i am using array destructors
@@ -39,19 +37,19 @@ const App = () => {
     time: '09:00'
   });
 
-  // Inject Tailwind via CDN to bypass local CSS errors
+  
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.tailwindcss.com";
     document.head.appendChild(script);
   }, []);
 
-  // 1. LOGIN HANDLER (Matches login.php)
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Use URLSearchParams to match PHP's $_POST expectation
+      
       const params = new URLSearchParams();
       params.append('name', loginData.name);
       params.append('phone', loginData.phone);
@@ -64,7 +62,7 @@ const App = () => {
 
       const data = await response.json();
       if (data.status === 'success') {
-        // Your PHP returns phone_number, we store the whole user object
+        
         setUser(data.user);
         fetchOrders(data.user.id);
       } else {
@@ -78,7 +76,7 @@ const App = () => {
     }
   };
 
-  // 2. FETCH ORDERS (Matches get_orders.php)
+
   const fetchOrders = async (userId) => {
     try {
       const response = await fetch(`${API_BASE_URL}get_orders.php?user_id=${userId}`);
@@ -91,7 +89,6 @@ const App = () => {
     }
   };
 
-  // 3. BOOKING HANDLER (Matches create_booking.php)
   const handleBooking = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -221,7 +218,7 @@ const App = () => {
                 <h3 className="font-black text-lg tracking-tight mb-4 uppercase">The Laboratory</h3>
 
                 <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                  {/* 1. We change the map to iterate over our new objects */}
+                  {}
                   {[
                     {
                       name: 'Jordan 1',
@@ -238,11 +235,11 @@ const App = () => {
                   ].map((shoe, i) => (
                     <div key={i} className="min-w-[200px] bg-white rounded-[2rem] border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
 
-                      {/* 2. Image Container */}
-                      {/* Added 'relative' and 'overflow-hidden' so the image respects the border radius */}
+                      {}
+                      {}
                       <div className="h-24 bg-neutral-100 rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden">
 
-                        {/* 3. The Image Tag */}
+                        {}
                         <img
                           src={shoe.image}
                           alt={shoe.name}
