@@ -222,7 +222,7 @@ const App = () => {
                   {[
                     {
                       name: 'Jordan 1',
-                      image: jordanImg // Replace with your actual image path
+                      image: jordanImg 
                     },
                     {
                       name: 'Yeezy 350',
@@ -330,7 +330,9 @@ const App = () => {
                     <option>Jordan</option>
                     <option>Nike</option>
                     <option>Yeezy</option>
-                    <option>Designer</option>
+                    <option>Reebok</option>
+                    <option>New Balance</option>
+                    <option>Vans</option>
                   </select>
                 </div>
                 <div className="space-y-1">
@@ -343,6 +345,7 @@ const App = () => {
                     <option value="Standard">Standard Clean</option>
                     <option value="Deep">Deep Revival</option>
                     <option value="Restoration">Restoration</option>
+                    <option value="Exterior clean">exterior clean</option>
                   </select>
                 </div>
               </div>

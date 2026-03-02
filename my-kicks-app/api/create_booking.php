@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $order_id = $conn->lastInsertId();
 
         
-        $passport = $conn->prepare("INSERT INTO product_passports (order_id, technician_notes) VALUES (?, 'Awaiting initial laboratory inspection')");
+        $passport = $conn->prepare("INSERT INTO product_passports (order_id, technician_notes) VALUES (?, 'Awaiting initial laboratory inspection')");//update it accordingly
         $passport->execute([$order_id]);
 
         echo json_encode(['status' => 'success', 'message' => 'Booking Confirmed! Your sneaker passport has been issued.']);

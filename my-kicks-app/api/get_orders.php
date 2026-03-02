@@ -26,9 +26,9 @@ if (isset($_GET['user_id'])) {
 
         echo json_encode(['status' => 'success', 'data' => $orders]);
     } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to fetch vault: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Failed to fetch your vault: ' . $e->getMessage()]);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'User session expired. Please login again.']);
+    echo json_encode(['status' => 'error', 'message' => 'your session has expired. Please login again.']);
 }
 ?>

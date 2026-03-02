@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'] ?? '';
 
     if (empty($name) || empty($phone)) {
-        echo json_encode(['status' => 'error', 'message' => 'Name and Phone are required']);
+        echo json_encode(['status' => 'error', 'message' => 'Name and Phone number are required']);
         exit;
     }
 
@@ -17,14 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $stmt = $conn->prepare("SELECT id, name, phone_number FROM users WHERE phone_number = ?");
         $stmt->execute([$phone]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch();// or fetchAll(PDO::FETCH_ASSOC);
 
         if ($user) {
             
             echo json_encode([
                 'status' => 'success', 
                 'user' => $user, 
-                'message' => 'Welcome back to the Vault!'
+                'message' => 'Welcome back to your Vault!'
             ]);
         } else {
         
