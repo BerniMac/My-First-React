@@ -1,4 +1,19 @@
 <?php
+// 1. Allow any origin (or replace * with http://localhost:5173 for better security)
+header("Access-Control-Allow-Origin: *");
+
+// 2. Allow specific HTTP methods
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
+
+// 3. Allow specific headers (Content-Type is the big one for fetch)
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+// 4. Handle the "Preflight" request
+// When you send a POST request, the browser first sends an "OPTIONS" request to check permissions.
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 header('Content-Type: application/json');
 require_once 'db_config.php';
 
