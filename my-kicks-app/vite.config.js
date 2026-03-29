@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 // Reference documentation: https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/My-First-React/',
 })
 
 /*
